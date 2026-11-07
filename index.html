@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guntur Engineering Colleges Guide — Developed by Manideep Kota</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                            950: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Glassmorphism Navigation */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .dark .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            border-color: #93c5fd;
+        }
+
+        .dark .glass-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        .dark ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col transition-colors duration-200">
+
+    <header class="glass-header sticky top-0 z-50 transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Branding & Creator Credits -->
+                <div class="flex items-center space-x-3">
+                    <div class="p-2.5 bg-brand-600 text-white rounded-xl shadow-md shadow-brand-500/20">
+                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg sm:text-xl font-extrabold tracking-tight font-heading text-slate-900 dark:text-white block">
+                            GUNTUR <span class="text-brand-600 dark:text-brand-500">ENGG GUIDE</span>
+                        </span>
+                        <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 dark:bg-brand-950 px-2 py-0.5 rounded-md border border-brand-200 dark:border-brand-800">
+                            <i data-lucide="code-2" class="w-3 h-3"></i> Developed by Manideep Kota
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Navigation Quick Links -->
+                <div class="hidden md:flex items-center space-x-6 text-sm font-semibold">
+                    <a href="#search-section" class="text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-white transition-colors">Explorer</a>
+                    <a href="#colleges-grid" class="text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-white transition-colors">Institutions</a>
+                    <a href="#deployment-notice" class="text-slate-600 hover:text-brand-600 dark:text-slate-300 dark:hover:text-white transition-colors">Deploy Info</a>
+                    <button onclick="openComparisonModal()" class="text-brand-600 dark:text-brand-400 flex items-center gap-1 hover:underline">
+                        <i data-lucide="sliders-horizontal" class="w-4 h-4"></i> Compare (<span id="compare-count">0</span>)
+                    </button>
+                </div>
+
+                <!-- Theme Toggle & CTA -->
+                <div class="flex items-center space-x-3">
+                    <button id="theme-toggle" class="p-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle Theme">
+                        <i data-lucide="moon" id="theme-moon" class="w-5 h-5"></i>
+                        <i data-lucide="sun" id="theme-sun" class="w-5 h-5 hidden"></i>
+                    </button>
+                    <a href="#search-section" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-md transition-all">
+                        Find College
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="relative py-12 sm:py-16 bg-slate-900 text-white overflow-hidden">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/30 mb-6">
+                        <i data-lucide="badge-check" class="w-4 h-4 text-brand-400"></i> Official Higher Education Comparison Portal
+                    </span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight font-heading leading-tight mb-4">
+                        Discover & Compare Top Engineering Colleges in <span class="text-brand-400">Guntur District</span>
+                    </h1>
+                    <p class="text-sm sm:text-base text-slate-300 mb-8 font-normal leading-relaxed">
+                        Developed by <strong class="text-white">Manideep Kota</strong>. Inspect closing ranks, tuition fees, placement records, and direct Category-B management intake details.
+                    </p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto pt-4 border-t border-slate-800">
+                        <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                            <span class="block text-2xl font-bold text-brand-400">12+</span>
+                            <span class="text-xs text-slate-400">Institutions</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                            <span class="block text-2xl font-bold text-emerald-400">100%</span>
+                            <span class="text-xs text-slate-400">Verified Data</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                            <span class="block text-2xl font-bold text-purple-400">₹58 LPA</span>
+                            <span class="text-xs text-slate-400">Highest Package</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60">
+                            <span class="block text-2xl font-bold text-amber-400">Direct</span>
+                            <span class="text-xs text-slate-400">Management Details</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="search-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+            <div class="glass-card rounded-2xl p-6 shadow-xl dark:bg-slate-800 dark:border-slate-700">
+                <div class="flex flex-col lg:flex-row gap-4 items-center justify-between mb-6">
+                    <div class="relative w-full lg:w-1/2">
+                        <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="search-input" placeholder="Search college name, location (Vadlamudi, Chowdavaram, Bapatla)..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm font-medium">
+                    </div>
+                    
+                    <div class="flex items-center gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">Quick Filters:</span>
+                        <button onclick="quickFilter('autonomous')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 whitespace-nowrap">⚡ Autonomous</button>
+                        <button onclick="quickFilter('deemed')" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 whitespace-nowrap">🏛️ Deemed Univ</button>
+                        <button onclick="resetFilters()" class="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 hover:underline ml-auto">Reset</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 pt-4 border-t border-slate-200 dark:border-slate-700/60">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Sub-Region</label>
+                        <select id="filter-location" class="w-full py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">All Locations</option>
+                            <option value="Chowdavaram">Chowdavaram</option>
+                            <option value="Vadlamudi">Vadlamudi</option>
+                            <option value="Vadleswaram">Vadleswaram</option>
+                            <option value="Nambur">Nambur</option>
+                            <option value="Bapatla">Bapatla</option>
+                            <option value="Narasaraopet">Narasaraopet</option>
+                            <option value="Vinjanampadu">Vinjanampadu</option>
+                            <option value="Lam">Lam</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Type</label>
+                        <select id="filter-type" class="w-full py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">All Types</option>
+                            <option value="Deemed University">Deemed University</option>
+                            <option value="Autonomous">Autonomous College</option>
+                            <option value="Government">Government / Public</option>
+                            <option value="Affiliated">Affiliated College</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Branch Focus</label>
+                        <select id="filter-branch" class="w-full py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">All Branches</option>
+                            <option value="CSE">CSE / AI / IT</option>
+                            <option value="ECE">ECE / EEE</option>
+                            <option value="Civil">Civil / Mech</option>
+                            <option value="Agri">Agricultural Engg</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Expected Max Rank</label>
+                        <select id="filter-rank" class="w-full py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">Any Rank</option>
+                            <option value="15000">Under 15,000</option>
+                            <option value="35000">Under 35,000</option>
+                            <option value="60000">Under 60,000</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Admission Route</label>
+                        <select id="filter-route" class="w-full py-2.5 px-3 rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <option value="all">All Routes</option>
+                            <option value="eapcet">AP EAPCET Convener</option>
+                            <option value="direct">Direct Management</option>
+                            <option value="jeemain">JEE Main / V-SAT / KLEEE</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="colleges-grid" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold font-heading text-slate-900 dark:text-white">
+                        Institutions Directory
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        Showing <span id="results-count" class="font-bold text-brand-600 dark:text-brand-400">0</span> verified colleges
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <label class="text-xs font-semibold text-slate-500">Sort By:</label>
+                    <select id="sort-order" class="py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-xs font-semibold focus:outline-none">
+                        <option value="rating">Rating & Accreditation</option>
+                        <option value="fee-asc">Convener Tuition Fee (Low to High)</option>
+                        <option value="placements">Average Placement Package</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="colleges-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+            <div id="empty-state" class="hidden text-center py-16 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-8">
+                <div class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+                    <i data-lucide="search-x" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">No Matching Colleges</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-6">
+                    No institutions match your selected criteria. Try adjusting your rank or region options.
+                </p>
+                <button onclick="resetFilters()" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold hover:bg-brand-700">Clear Filters</button>
+            </div>
+        </section>
+
+        <section id="deployment-notice" class="bg-slate-900 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center mb-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30 mb-3">
+                        <i data-lucide="rocket" class="w-3.5 h-3.5"></i> Deployment Guide for Manideep Kota
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-bold font-heading">Deployment Instructions</h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                        How to publish this web application live on Netlify or Vercel.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm mb-3">1</div>
+                        <h3 class="font-bold text-sm text-white mb-1">Save code locally</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Save this file as <code class="bg-slate-900 px-1.5 py-0.5 rounded text-brand-300">index.html</code> inside a clean folder on your computer.</p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm mb-3">2</div>
+                        <h3 class="font-bold text-sm text-white mb-1">Netlify Drag & Drop</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Log in to your <strong>Netlify Dashboard</strong>, go to Sites, and drag-and-drop the folder containing your <code class="bg-slate-900 px-1.5 py-0.5 rounded text-brand-300">index.html</code> file.</p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm mb-3">3</div>
+                        <h3 class="font-bold text-sm text-white mb-1">Update Existing Domain</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Open your site details (<code class="bg-slate-900 px-1.5 py-0.5 rounded text-brand-300">astonishing-jalebi-024c7f</code>), select <strong>Deploys</strong>, and upload the updated production build.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="compare-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="sliders-horizontal" class="w-5 h-5 text-brand-600"></i>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Institution Comparison</h3>
+                </div>
+                <button onclick="closeComparisonModal()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-x-auto flex-grow">
+                <div id="compare-content" class="min-w-[500px]"></div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                <button onclick="closeComparisonModal()" class="px-4 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold rounded-xl text-xs">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="detail-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200 dark:border-slate-700">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <h3 id="modal-title" class="text-base font-bold text-slate-900 dark:text-white font-heading"></h3>
+                <button onclick="closeDetailModal()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 overflow-y-auto text-xs space-y-4"></div>
+            <div class="px-6 py-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                <button onclick="closeDetailModal()" class="px-4 py-1.5 bg-brand-600 text-white font-semibold rounded-xl text-xs">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-950 text-slate-400 py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center space-x-2 text-white font-extrabold text-lg mb-2">
+                <i data-lucide="graduation-cap" class="text-brand-500"></i>
+                <span>GUNTUR ENGINEERING GUIDE</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-4">
+                Developed by <strong class="text-slate-200">Manideep Kota</strong> • Independent Guntur Higher Education Directory
+            </p>
+            <p class="text-[11px] text-slate-500">
+                © 2026 Guntur Engineering Guide. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const collegesData = [
+            {
+                id: 'klu',
+                name: "KL University (KLEEE)",
+                shortName: "KLU Vadleswaram",
+                location: "Vadleswaram",
+                type: "Deemed University",
+                autonomous: true,
+                rating: 4.8,
+                naac: "A++",
+                nrf: "#35 (Engg)",
+                convenerFee: "₹2,40,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹7.8 LPA",
+                maxPlacement: "₹58.0 LPA",
+                eapcetRankCSE: 12000,
+                branches: ["CSE", "AI & DS", "Cyber Security", "ECE", "Biotech"],
+                isWomenOnly: false,
+                routes: ["direct", "jeemain"],
+                website: "https://www.kluniversity.in"
+            },
+            {
+                id: 'vfstr',
+                name: "Vignan's Foundation (VFSTR)",
+                shortName: "Vignan Vadlamudi",
+                location: "Vadlamudi",
+                type: "Deemed University",
+                autonomous: true,
+                rating: 4.7,
+                naac: "A+",
+                nrf: "#75 (Engg)",
+                convenerFee: "₹1,80,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹5.6 LPA",
+                maxPlacement: "₹44.0 LPA",
+                eapcetRankCSE: 18000,
+                branches: ["CSE", "AI & ML", "ECE", "Chemical", "IT"],
+                isWomenOnly: false,
+                routes: ["direct", "jeemain"],
+                website: "https://vignan.ac.in"
+            },
+            {
+                id: 'rvrjc',
+                name: "RVR & JC College of Engineering",
+                shortName: "RVR & JC",
+                location: "Chowdavaram",
+                type: "Autonomous",
+                autonomous: true,
+                rating: 4.6,
+                naac: "A+",
+                nrf: "Rank Band 150-200",
+                convenerFee: "₹70,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹5.2 LPA",
+                maxPlacement: "₹50.5 LPA",
+                eapcetRankCSE: 8500,
+                branches: ["CSE", "AI & DS", "IT", "ECE", "EEE", "Mechanical", "Civil"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "https://rvrjc.ac.in"
+            },
+            {
+                id: 'vvit',
+                name: "Vasireddy Venkatadri Inst. of Tech (VVIT)",
+                shortName: "VVIT Nambur",
+                location: "Nambur",
+                type: "Autonomous",
+                autonomous: true,
+                rating: 4.5,
+                naac: "A",
+                nrf: "NAAC Accredited",
+                convenerFee: "₹68,800 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹4.8 LPA",
+                maxPlacement: "₹33.0 LPA",
+                eapcetRankCSE: 14000,
+                branches: ["CSE", "AI & ML", "Data Science", "ECE", "IT"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "https://vvitguntur.com"
+            },
+            {
+                id: 'bec',
+                name: "Bapatla Engineering College (BEC)",
+                shortName: "BEC Bapatla",
+                location: "Bapatla",
+                type: "Autonomous",
+                autonomous: true,
+                rating: 4.4,
+                naac: "A",
+                nrf: "Pioneer Est. 1981",
+                convenerFee: "₹65,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹4.2 LPA",
+                maxPlacement: "₹22.0 LPA",
+                eapcetRankCSE: 22000,
+                branches: ["CSE", "ECE", "Civil", "Mechanical", "EEE", "IT"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "http://becbapatla.ac.in"
+            },
+            {
+                id: 'vignan-lara',
+                name: "Vignan's LARA Institute of Tech",
+                shortName: "Vignan LARA",
+                location: "Vadlamudi",
+                type: "Affiliated",
+                autonomous: false,
+                rating: 4.3,
+                naac: "A+",
+                nrf: "JNTUK Affiliated",
+                convenerFee: "₹63,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹4.5 LPA",
+                maxPlacement: "₹18.0 LPA",
+                eapcetRankCSE: 25000,
+                branches: ["CSE", "AI & ML", "ECE", "EEE", "Mechanical"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "https://vignanlara.org"
+            },
+            {
+                id: 'nec',
+                name: "Narasaraopeta Engineering College",
+                shortName: "NEC Narasaraopet",
+                location: "Narasaraopet",
+                type: "Autonomous",
+                autonomous: true,
+                rating: 4.2,
+                naac: "A+",
+                nrf: "Autonomous Campus",
+                convenerFee: "₹58,800 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹4.0 LPA",
+                maxPlacement: "₹16.0 LPA",
+                eapcetRankCSE: 32000,
+                branches: ["CSE", "AI", "ECE", "EEE", "Civil", "Mechanical"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "https://nrtec.in"
+            },
+            {
+                id: 'kits',
+                name: "KKR & KSR Institute of Tech (KITS)",
+                shortName: "KITS Vinjanampadu",
+                location: "Vinjanampadu",
+                type: "Autonomous",
+                autonomous: true,
+                rating: 4.2,
+                naac: "A",
+                nrf: "NBA Accredited",
+                convenerFee: "₹55,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹4.1 LPA",
+                maxPlacement: "₹15.0 LPA",
+                eapcetRankCSE: 38000,
+                branches: ["CSE", "AI & ML", "Data Science", "ECE", "IT"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "https://kitsguntur.ac.in"
+            },
+            {
+                id: 'jntuk-narasaraopet',
+                name: "UCEN - JNTUK Narasaraopet",
+                shortName: "JNTUK Campus",
+                location: "Narasaraopet",
+                type: "Government",
+                autonomous: true,
+                rating: 4.3,
+                naac: "Govt",
+                nrf: "Public University",
+                convenerFee: "₹35,000 / yr",
+                managementFee: "Not Applicable (Govt)",
+                avgPlacement: "₹4.5 LPA",
+                maxPlacement: "₹14.0 LPA",
+                eapcetRankCSE: 11000,
+                branches: ["CSE", "ECE", "EEE", "Civil", "Mechanical"],
+                isWomenOnly: false,
+                routes: ["eapcet"],
+                website: "https://jntukucen.ac.in"
+            },
+            {
+                id: 'ciet',
+                name: "Chalapathi Inst. of Engg & Tech (CIET)",
+                shortName: "CIET Lam",
+                location: "Lam",
+                type: "Affiliated",
+                autonomous: false,
+                rating: 4.0,
+                naac: "A",
+                nrf: "JNTUK Affiliated",
+                convenerFee: "₹48,000 / yr",
+                managementFee: "Reach out to institution",
+                avgPlacement: "₹3.8 LPA",
+                maxPlacement: "₹12.0 LPA",
+                eapcetRankCSE: 52000,
+                branches: ["CSE", "AI", "ECE", "EEE", "Civil"],
+                isWomenOnly: false,
+                routes: ["eapcet", "direct"],
+                website: "https://chalapathiengg.ac.in"
+            }
+        ];
+
+        let comparedColleges = [];
+
+        const collegesContainer = document.getElementById('colleges-list');
+        const emptyState = document.getElementById('empty-state');
+        const resultsCount = document.getElementById('results-count');
+        const searchInput = document.getElementById('search-input');
+        const filterLocation = document.getElementById('filter-location');
+        const filterType = document.getElementById('filter-type');
+        const filterBranch = document.getElementById('filter-branch');
+        const filterRank = document.getElementById('filter-rank');
+        const filterRoute = document.getElementById('filter-route');
+        const sortOrder = document.getElementById('sort-order');
+
+        // Theme Switch Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeMoon = document.getElementById('theme-moon');
+        const themeSun = document.getElementById('theme-sun');
+
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+            themeMoon.classList.add('hidden');
+            themeSun.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            themeMoon.classList.toggle('hidden');
+            themeSun.classList.toggle('hidden');
+        });
+
+        function getFilteredColleges() {
+            const query = searchInput.value.toLowerCase().trim();
+            const loc = filterLocation.value;
+            const type = filterType.value;
+            const branch = filterBranch.value;
+            const rank = filterRank.value;
+            const route = filterRoute.value;
+
+            return collegesData.filter(college => {
+                const matchesSearch = college.name.toLowerCase().includes(query) ||
+                                      college.location.toLowerCase().includes(query) ||
+                                      college.shortName.toLowerCase().includes(query);
+                const matchesLoc = loc === 'all' || college.location === loc;
+                const matchesType = type === 'all' || college.type === type;
+                const matchesBranch = branch === 'all' || college.branches.some(b => b.toLowerCase().includes(branch.toLowerCase()));
+                const matchesRank = rank === 'all' || college.eapcetRankCSE <= parseInt(rank);
+                const matchesRoute = route === 'all' || college.routes.includes(route);
+
+                return matchesSearch && matchesLoc && matchesType && matchesBranch && matchesRank && matchesRoute;
+            });
+        }
+
+        function renderColleges() {
+            let filtered = getFilteredColleges();
+
+            const sortVal = sortOrder.value;
+            if (sortVal === 'rating') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            } else if (sortVal === 'fee-asc') {
+                filtered.sort((a, b) => {
+                    const feeA = parseInt(a.convenerFee.replace(/[^0-9]/g, '')) || 0;
+                    const feeB = parseInt(b.convenerFee.replace(/[^0-9]/g, '')) || 0;
+                    return feeA - feeB;
+                });
+            } else if (sortVal === 'placements') {
+                filtered.sort((a, b) => {
+                    const pA = parseFloat(a.avgPlacement.replace(/[^0-9.]/g, '')) || 0;
+                    const pB = parseFloat(b.avgPlacement.replace(/[^0-9.]/g, '')) || 0;
+                    return pB - pA;
+                });
+            }
+
+            resultsCount.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                collegesContainer.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            collegesContainer.innerHTML = filtered.map(college => {
+                const isCompared = comparedColleges.includes(college.id);
+                return `
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between relative bg-white dark:bg-slate-800">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${
+                                college.type === 'Deemed University' ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300' :
+                                college.type === 'Autonomous' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300' :
+                                college.type === 'Government' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300' :
+                                'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300'
+                            }">
+                                ${college.type}
+                            </span>
+                            <div class="flex items-center gap-1 text-amber-500 font-bold text-xs bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                <span>${college.rating}</span>
+                            </div>
+                        </div>
+
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white font-heading leading-snug mb-1">
+                            ${college.name}
+                        </h3>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-4">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-500"></i> ${college.location}, Guntur
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-2 p-3 bg-slate-50 dark:bg-slate-900/60 rounded-xl mb-4 border border-slate-100 dark:border-slate-700/50">
+                            <div>
+                                <span class="block text-[9px] font-bold text-slate-400 uppercase">CSE Cutoff</span>
+                                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">~ Rank ${college.eapcetRankCSE.toLocaleString()}</span>
+                            </div>
+                            <div>
+                                <span class="block text-[9px] font-bold text-slate-400 uppercase">Avg Package</span>
+                                <span class="text-xs font-extrabold text-emerald-600 dark:text-emerald-400">${college.avgPlacement}</span>
+                            </div>
+                        </div>
+
+                        <!-- Management Fee Pill Badge -->
+                        <div class="space-y-2 mb-4 text-xs">
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/60 pb-1.5">
+                                <span class="text-slate-500 dark:text-slate-400 font-medium">Convener Fee:</span>
+                                <span class="font-bold text-slate-800 dark:text-slate-200">${college.convenerFee}</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-0.5">
+                                <span class="text-slate-500 dark:text-slate-400 font-medium">Management Fee:</span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-[10px] bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800">
+                                    <i data-lucide="phone-call" class="w-3 h-3"></i> ${college.managementFee}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1 mb-5">
+                            ${college.branches.map(b => `<span class="px-2 py-0.5 text-[9px] font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded">${b}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between gap-2">
+                        <button onclick="toggleCompare('${college.id}')" class="px-2.5 py-1.5 text-xs font-semibold rounded-lg border flex items-center gap-1 ${
+                            isCompared 
+                            ? 'bg-brand-50 border-brand-300 text-brand-700 dark:bg-brand-950 dark:border-brand-800 dark:text-brand-300'
+                            : 'border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300'
+                        }">
+                            <i data-lucide="${isCompared ? 'check-square' : 'square'}" class="w-3.5 h-3.5"></i> Compare
+                        </button>
+
+                        <button onclick="openDetailModal('${college.id}')" class="px-3 py-1.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg transition-colors flex items-center gap-1">
+                            Details <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function quickFilter(type) {
+            resetFilters();
+            if (type === 'autonomous') filterType.value = 'Autonomous';
+            if (type === 'deemed') filterType.value = 'Deemed University';
+            renderColleges();
+        }
+
+        function resetFilters() {
+            searchInput.value = '';
+            filterLocation.value = 'all';
+            filterType.value = 'all';
+            filterBranch.value = 'all';
+            filterRank.value = 'all';
+            filterRoute.value = 'all';
+            sortOrder.value = 'rating';
+            renderColleges();
+        }
+
+        function toggleCompare(id) {
+            if (comparedColleges.includes(id)) {
+                comparedColleges = comparedColleges.filter(cId => cId !== id);
+            } else {
+                if (comparedColleges.length >= 3) {
+                    alert("You can compare up to 3 colleges at once.");
+                    return;
+                }
+                comparedColleges.push(id);
+            }
+            document.getElementById('compare-count').textContent = comparedColleges.length;
+            renderColleges();
+        }
+
+        function openComparisonModal() {
+            if (comparedColleges.length === 0) {
+                alert("Please select colleges to compare first!");
+                return;
+            }
+            const compareData = collegesData.filter(c => comparedColleges.includes(c.id));
+            const modalContent = document.getElementById('compare-content');
+
+            modalContent.innerHTML = `
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700">
+                            <th class="p-2 text-slate-400 font-bold">Parameter</th>
+                            ${compareData.map(c => `<th class="p-2 font-bold text-slate-900 dark:text-white font-heading">${c.shortName}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                        <tr>
+                            <td class="p-2 text-slate-500 font-semibold">Type</td>
+                            ${compareData.map(c => `<td class="p-2 font-bold text-brand-600">${c.type}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-500 font-semibold">Location</td>
+                            ${compareData.map(c => `<td class="p-2">${c.location}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-500 font-semibold">Convener Fee</td>
+                            ${compareData.map(c => `<td class="p-2 font-bold">${c.convenerFee}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-500 font-semibold">Management Fee</td>
+                            ${compareData.map(c => `<td class="p-2"><span class="px-2 py-0.5 bg-amber-50 text-amber-700 rounded border border-amber-200 text-[10px] font-bold">${c.managementFee}</span></td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td class="p-2 text-slate-500 font-semibold">Avg Package</td>
+                            ${compareData.map(c => `<td class="p-2 font-bold text-emerald-600">${c.avgPlacement}</td>`).join('')}
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('compare-modal').classList.remove('hidden');
+        }
+
+        function closeComparisonModal() {
+            document.getElementById('compare-modal').classList.add('hidden');
+        }
+
+        function openDetailModal(id) {
+            const college = collegesData.find(c => c.id === id);
+            if (!college) return;
+
+            document.getElementById('modal-title').textContent = college.name;
+            document.getElementById('modal-body').innerHTML = `
+                <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl space-y-2">
+                    <p class="font-semibold text-slate-700 dark:text-slate-300"><strong>Location:</strong> ${college.location}, Guntur District</p>
+                    <p class="font-semibold text-slate-700 dark:text-slate-300"><strong>Status:</strong> ${college.type} (${college.autonomous ? 'Autonomous' : 'Affiliated'})</p>
+                    <p class="font-semibold text-slate-700 dark:text-slate-300"><strong>NAAC Rating:</strong> ${college.naac} | <strong>NIRF / Status:</strong> ${college.nrf}</p>
+                </div>
+                <div class="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
+                    <p class="font-bold text-slate-800 dark:text-slate-200">Fee Structure:</p>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-600 dark:text-slate-400">
+                        <li><strong>Convener Tuition:</strong> ${college.convenerFee}</li>
+                        <li><strong>Category-B / Management:</strong> <span class="text-amber-600 font-bold">${college.managementFee}</span></li>
+                    </ul>
+                </div>
+                <div class="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
+                    <p class="font-bold text-slate-800 dark:text-slate-200">Placements & Cutoffs:</p>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-600 dark:text-slate-400">
+                        <li><strong>Est. CSE Closing Rank:</strong> ~ ${college.eapcetRankCSE.toLocaleString()}</li>
+                        <li><strong>Average Package:</strong> ${college.avgPlacement}</li>
+                        <li><strong>Highest Package:</strong> ${college.maxPlacement}</li>
+                    </ul>
+                </div>
+                <div class="pt-2">
+                    <a href="${college.website}" target="_blank" class="inline-flex items-center gap-1 text-brand-600 font-bold hover:underline">
+                        Visit Official Website <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            `;
+
+            lucide.createIcons();
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        [searchInput, filterLocation, filterType, filterBranch, filterRank, filterRoute, sortOrder].forEach(el => {
+            el.addEventListener('change', renderColleges);
+            el.addEventListener('keyup', renderColleges);
+        });
+
+        window.onload = function() {
+            renderColleges();
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
